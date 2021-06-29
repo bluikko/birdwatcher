@@ -16,6 +16,9 @@ jobs:
       uses: bluikko/centos7-go@master
       with:
         build_opts: 'linux'
+        name: dist
+        path: |
+          DIST
     - name: Package
       uses: bpicode/github-action-fpm@master
       with:
