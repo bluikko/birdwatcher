@@ -22,5 +22,5 @@ jobs:
       uses: bpicode/github-action-fpm@master
       with:
         fpm_args: 'make linux'
-        fpm_opts: '--debug -n birdwatcher -v "2.2.1" -t rpm -s dir -C birdwatcher-linux-amd64/ --config-files /etc/birdwatcher/birdwatcher.conf opt/ etc/'
+        fpm_opts: '--debug -n birdwatcher -v "2.2.1" -t rpm -s dir -C DIST/ --config-files /etc/birdwatcher/birdwatcher.conf opt/ etc/'
     - run: mv *.rpm RPMS
