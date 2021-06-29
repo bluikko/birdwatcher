@@ -5,8 +5,8 @@
 PROG=birdwatcher
 ARCH=amd64
 
-APP_VERSION=$(shell cat VERSION)
-VERSION=$(APP_VERSION)_$(shell git rev-parse --short HEAD)
+APP_VERSION=$(cat VERSION)
+VERSION=$(APP_VERSION)_$(git rev-parse --short HEAD)
 
 BUILD_SERVER=''
 
@@ -20,7 +20,7 @@ RPM=$(PROG)-$(VERSION)-1.x86_64.rpm
 LOCAL_RPMS=RPMS
 
 # OS Detection
-UNAME=$(shell uname)
+UNAME=$(uname)
 ifeq ($(UNAME), Darwin)
   TARGET=osx
 endif
