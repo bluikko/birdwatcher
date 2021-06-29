@@ -15,7 +15,7 @@ jobs:
     - name: Build
       uses: bluikko/centos7-go@master
       with:
-        make_opts: 'linux'
+        build_opts: 'linux'
     - name: Package
       uses: bpicode/github-action-fpm@master
       with:
