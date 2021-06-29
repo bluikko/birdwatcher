@@ -19,6 +19,8 @@ jobs:
         name: dist
         path: |
           DIST
+    - run: ls -latr
+    - run: ls -latr DIST
     - name: Package
       uses: bpicode/github-action-fpm@master
       with:
