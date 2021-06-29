@@ -13,9 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build
-      run: make 
+      uses: bluikko/centos7-go@main
     - name: Package
-      uses: bluikko/github-action-fpm@master
+      uses: bpicode/github-action-fpm@master
       with:
-        fpm_args: 'make rpm'
-        fpm_opts: ''
+        fpm_args: 'make dist'
+        fpm_opts: '--debug -n birdwatcher -v "2.2.1" -t rpm -s dir -C DIST/ --config-files /etc/birdwatcher/birdwatcher.conf opt/ etc/'
