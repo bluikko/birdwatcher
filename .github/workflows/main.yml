@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build
-      uses: bluikko/centos7-go@main
+      uses: bluikko/centos7-go@master
     - name: Package
       uses: bpicode/github-action-fpm@master
       with:
