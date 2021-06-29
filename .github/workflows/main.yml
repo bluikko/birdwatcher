@@ -16,11 +16,14 @@ jobs:
       uses: bluikko/centos7-go@master
       with:
         build_opts: 'linux'
-    - run: ls -latr
-    - run: ls -latr DIST
     - name: Package
       uses: bpicode/github-action-fpm@master
       with:
         fpm_args: 'opt/ etc/'
         fpm_opts: '--debug -n birdwatcher -v "2.2.1" -t rpm -s dir -C DIST/ --config-files /etc/birdwatcher/birdwatcher.conf'
-    - run: mv *.rpm RPMS
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: birdwatcher-rpm
+        path: |
+          birdwatcher-2.2.1-1.x86_64.rpm
