@@ -89,8 +89,8 @@ rpm: dist
 	# Clear tmp failed build (if any)
 	mkdir -p $(LOCAL_RPMS)
 
-        chmod -R a-x $(DIST)etc/ $(DIST)usr/
-        chmod -R a+X $(DIST)etc/ $(DIST)usr/
+	chmod -R a-x $(DIST)etc/ $(DIST)usr/
+	chmod -R a+X $(DIST)etc/ $(DIST)usr/
 
 	# Create RPM from dist
 	fpm -s dir -t rpm -n $(PROG) -v $(VERSION) -C $(DIST) \
