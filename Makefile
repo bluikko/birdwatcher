@@ -89,10 +89,13 @@ rpm: dist
 	# Clear tmp failed build (if any)
 	mkdir -p $(LOCAL_RPMS)
 
+        chmod -R a-x $(DIST)etc/ $(DIST)usr/
+        chmod -R a+X $(DIST)etc/ $(DIST)usr/
+
 	# Create RPM from dist
 	fpm -s dir -t rpm -n $(PROG) -v $(VERSION) -C $(DIST) \
 		--config-files /etc/birdwatcher/birdwatcher.conf \
-		opt/ etc/
+		opt/ etc/ usr/
 
 	mv $(RPM) $(LOCAL_RPMS)
 
@@ -106,7 +109,7 @@ remote_rpm: build_server dist
 	scp -r $(DIST) $(BUILD_SERVER):$(REMOTE_DIST)
 	ssh $(BUILD_SERVER) -- fpm -s dir -t rpm -n $(PROG) -v $(VERSION) -C $(REMOTE_DIST) \
 		--config-files /etc/birdwatcher/birdwatcher.conf \
-		opt/ etc/
+		opt/ etc/ usr/
 
 	# Get rpm from server
 	scp $(BUILD_SERVER):$(RPM) $(LOCAL_RPMS)/.
