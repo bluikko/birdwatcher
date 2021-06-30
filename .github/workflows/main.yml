@@ -1,0 +1,29 @@
+name: fpm build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      uses: bluikko/centos7-go@master
+      with:
+        build_opts: 'linux'
+    - name: Package
+      uses: bpicode/github-action-fpm@master
+      with:
+        fpm_args: 'opt/ etc/ usr/'
+        fpm_opts: '--debug -n birdwatcher -v "2.2.1" -t rpm -s dir -C DIST/ --config-files /etc/birdwatcher/birdwatcher.conf'
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: birdwatcher-rpm
+        path: |
+          birdwatcher-*.rpm

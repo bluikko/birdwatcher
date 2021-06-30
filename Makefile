@@ -5,8 +5,8 @@
 PROG=birdwatcher
 ARCH=amd64
 
-APP_VERSION=$(shell cat VERSION)
-VERSION=$(APP_VERSION)_$(shell git rev-parse --short HEAD)
+APP_VERSION=$(cat VERSION)
+VERSION=$(APP_VERSION)_$(git rev-parse --short HEAD)
 
 BUILD_SERVER=''
 
@@ -20,7 +20,7 @@ RPM=$(PROG)-$(VERSION)-1.x86_64.rpm
 LOCAL_RPMS=RPMS
 
 # OS Detection
-UNAME=$(shell uname)
+UNAME=$(uname)
 ifeq ($(UNAME), Darwin)
   TARGET=osx
 endif
@@ -89,10 +89,13 @@ rpm: dist
 	# Clear tmp failed build (if any)
 	mkdir -p $(LOCAL_RPMS)
 
+	chmod -R a-x $(DIST)etc/ $(DIST)usr/
+	chmod -R a+X $(DIST)etc/ $(DIST)usr/
+
 	# Create RPM from dist
 	fpm -s dir -t rpm -n $(PROG) -v $(VERSION) -C $(DIST) \
 		--config-files /etc/birdwatcher/birdwatcher.conf \
-		opt/ etc/
+		opt/ etc/ usr/
 
 	mv $(RPM) $(LOCAL_RPMS)
 
@@ -106,7 +109,7 @@ remote_rpm: build_server dist
 	scp -r $(DIST) $(BUILD_SERVER):$(REMOTE_DIST)
 	ssh $(BUILD_SERVER) -- fpm -s dir -t rpm -n $(PROG) -v $(VERSION) -C $(REMOTE_DIST) \
 		--config-files /etc/birdwatcher/birdwatcher.conf \
-		opt/ etc/
+		opt/ etc/ usr/
 
 	# Get rpm from server
 	scp $(BUILD_SERVER):$(RPM) $(LOCAL_RPMS)/.
